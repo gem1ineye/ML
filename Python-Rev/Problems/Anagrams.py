@@ -17,3 +17,10 @@ else:
 # is work if some how for loop is uncompleted due to reason like break else part didn't work
 
 
+class a:
+    def __init__(self,name):
+        self.name=name
+    
+obj=a('kamina')
+
+print(obj.name)
