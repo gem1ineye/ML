@@ -1,0 +1,91 @@
+-- 🔍 Query 1: Select all students whose names START with the letter 'A'
+SELECT * 
+FROM student
+WHERE name LIKE 'A%';
+-- Explanation:
+-- 'A%' means any name that begins with 'A' followed by any number of characters.
+-- Example matches: Ajay, Alex, Anthony, etc.
+
+------------------------------------------------------------
+
+-- 🔍 Query 2: Select all students whose names END with the letter 'A'
+SELECT * 
+FROM student
+WHERE name LIKE '%A';
+-- Explanation:
+-- '%A' means any name that ends with 'A', regardless of what comes before it.
+-- Example matches: Katrina, Liza, etc.
+
+------------------------------------------------------------
+
+-- 🔍 Query 3: Select all students whose names are EXACTLY 4 characters long
+SELECT * 
+FROM student
+WHERE name LIKE '____';
+-- Explanation:
+-- Each underscore (_) represents one character.
+-- '____' means names with exactly 4 letters.
+-- Example matches: John, Ajay, Khan, Alex, etc.
+
+-- 🔍 Query: Retrieve all student details along with their department information
+SELECT * 
+FROM student, dept
+WHERE student.deptno = dept.deptno;
+-- Explanation:
+-- This is an INNER JOIN operation using the old-style (comma-separated) syntax.
+-- It combines rows from both tables (student and dept)
+-- where the 'deptno' value in the 'student' table matches the 'deptno' in the 'dept' table.
+
+-- The result shows:
+-- → All columns from both 'student' and 'dept' tables.
+-- → Only those records where department numbers match in both tables. 
+-- Example:
+-- student.deptno = 10 → matched with dept.deptno = 10 → gives dept name 'CSE'.
+-- So, students Smith, John, Kiran, William, and Suman are all from CSE.
+
+-- 🔍 Query: Retrieve all student details along with their respective department details
+SELECT *
+FROM student, dept
+WHERE student.deptno = dept.deptno;
+-- Explanation:
+-- This query performs an INNER JOIN between 'student' and 'dept' tables.
+-- It matches rows where the 'deptno' (department number) is the same in both tables.
+-- As a result, only students who belong to a valid department appear in the output.
+-- Columns returned include all fields from both tables.
+-- Example:
+-- If student.deptno = 10 and dept.deptno = 10 → that student’s record is combined with department details.
+
+-- ✅ Better modern SQL (recommended syntax for clarity):
+SELECT *
+FROM student
+INNER JOIN dept
+ON student.deptno = dept.deptno;
+
+-- ⚙️ Rule for SQL Set Operations (like UNION, INTERSECT, EXCEPT)
+-- ---------------------------------------------------------------
+-- When performing a set operation between two SELECT queries,
+-- the following conditions must be satisfied:
+
+-- 1️⃣ Both SELECT statements must return the same number of columns.
+-- 2️⃣ The corresponding columns (by position) must have compatible data types.
+-- 3️⃣ The column names in the result set are taken from the first SELECT query.
+
+-- 🔍 Query: Find all students who live in the same city as 'John'
+SELECT name, city
+FROM student
+WHERE city IN (
+    SELECT city
+    FROM student
+    WHERE name = 'John'
+);
+-- Explanation:
+-- 1️⃣ The inner query (subquery) retrieves the city of 'John'.
+--     → Example: If John lives in 'CA', it returns 'CA'.
+-- 2️⃣ The outer query selects all students whose 'city' matches
+--     any of the cities returned by the subquery.
+-- 3️⃣ Effectively, this finds all students who live in the same city as John.
+-- Example Output:
+-- John | CA
+-- Alex | CA
+-- Roger | CA
+-- ✅ So, John, Alex, and Roger are from the same city 'CA'.
