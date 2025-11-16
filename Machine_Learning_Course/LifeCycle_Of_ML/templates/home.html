@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>FWI Prediction</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 24px; max-width: 720px; margin: auto; }
+    label { display:inline-block; width:150px; }
+    input { width:160px; padding:4px; }
+    .row { margin-bottom:12px; }
+    .result { margin-top:18px; padding:12px; border-radius:6px; }
+    .ok { background:#e6ffed; border:1px solid #8be28a; }
+    .err { background:#ffecec; border:1px solid #f29a9a; }
+  </style>
+</head>
+<body>
+
+<h1>FWI Prediction</h1>
+
+{% if error %}
+  <div class="result err"><strong>Error:</strong> {{ error }}</div>
+{% elif result is not none %}
+  <div class="result ok"><strong>Predicted FWI:</strong> {{ result }}</div>
+{% endif %}
+
+<form action="{{ url_for('predict_fwi') }}" method="post">
+
+  <div class="row"><label>Temperature:</label>
+    <input type="text" name="Temperature" required></div>
+
+  <div class="row"><label>RH:</label>
+    <input type="text" name="RH" required></div>
+
+  <div class="row"><label>Ws:</label>
+    <input type="text" name="Ws" required></div>
+
+  <div class="row"><label>Rain:</label>
+    <input type="text" name="rain" required></div>
+
+  <div class="row"><label>FFMC:</label>
+    <input type="text" name="FFMC" required></div>
+
+  <div class="row"><label>DMC:</label>
+    <input type="text" name="DMC" required></div>
+
+  <div class="row"><label>DC:</label>
+    <input type="text" name="DC" required></div>
+
+  <div class="row"><label>ISI:</label>
+    <input type="text" name="ISI" required></div>
+
+  <div class="row"><label>Classes:</label>
+    <input type="text" name="Classes" required></div>
+
+  <div class="row"><label>Region:</label>
+    <input type="text" name="Region" required></div>
+
+  <button type="submit">Predict FWI</button>
+</form>
+
+</body>
+</html>
